@@ -1,11 +1,12 @@
 import * as React from "react";
 import logo from "./logo.svg";
+import { clearText, sayHello } from "./reducers/actions";
 import { connect } from "react-redux";
-import { sayHello } from "./reducers/actions";
 import "./App.css";
 interface IAppProp {
   hi : any;
   hello : () => void;
+  clear : () => void;
 }
 class App extends React.Component < IAppProp > {
   public render() {
@@ -24,7 +25,14 @@ class App extends React.Component < IAppProp > {
             onClick={this
             .props
             .hello
-            .bind(this, "say something")}>aa</button>
+            .bind(this, "say something")}>Say Hello</button>
+
+          <button
+            onClick={this
+            .props
+            .clear
+            .bind(this, null)}>Clear</button>
+
         </p>
       </div>
     );
@@ -36,9 +44,10 @@ const mapStateToProps = (state : any, ownProps : any) => {
 }
 const mapDispatchToProps = (dispatch : any, ownProps : any) => {
   return {
+    clear: () => dispatch(clearText()),
     hello: (text : string) => {
       dispatch(sayHello(text))
-    }
+    },
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);
